@@ -70,6 +70,7 @@ export function renderUserPostsPageComponent({ appEl }) {
       like.addEventListener("click", () => {
           let id = like.dataset.postId;
           let token = getToken();
+          console.log(like.dataset.switcher);
           if( like.dataset.switcher === "true") {
             removeLike(token , id)
             .then(() => {goToPageWithoutLoader(USER_POSTS_PAGE,{ userId : like.dataset.userId})})
