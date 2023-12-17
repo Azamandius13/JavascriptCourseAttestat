@@ -6,6 +6,7 @@ import { getToken } from "../index.js";
 import { goToPageWithoutLoader } from "../index.js";
 import { goToPage } from "../index.js";
 import { replacerSafity } from "../helpers.js";
+import { toggleLike } from "../index.js";
 
 export function renderUserPostsPageComponent({ appEl }) {
     // TODO: реализовать рендер постов из api
@@ -74,17 +75,7 @@ export function renderUserPostsPageComponent({ appEl }) {
     for (let like of document.querySelectorAll(".like-button")) {
       like.addEventListener("click", () => {
           let id = like.dataset.postId;
-          let token = getToken();
-          console.log(like.dataset.switcher);
-          if( like.dataset.switcher === "true") {
-            removeLike(token , id)
-            .then(() => {goToPageWithoutLoader(USER_POSTS_PAGE,{ userId : like.dataset.userId})})
-          }
-          if( like.dataset.switcher === "false") {
-            addLike(token , id)
-            .then(() => {goToPageWithoutLoader(USER_POSTS_PAGE ,{ userId : like.dataset.userId})})
-          }
-          
+          toggleLike(id);
       });
     } 
   }

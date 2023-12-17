@@ -18,6 +18,8 @@ import {
 
 import {renderUserPostsPageComponent} from "./components/user_post_page_components.js"
 
+import { removeLike,addLike } from "./api.js";
+
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -188,6 +190,26 @@ export const goToPageWithoutLoader = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
+export const toggleLike = (postId) => {
+  const index = posts.findIndex((el) => {return el === postId})
+  console.log(index)
+
+    // if (posts[index].isLiked) {
+    //     removeLike(getToken() , postId).then((updatedPost) => {
+    //       renderApp()
+    //     })
+    // }else {
+    //   addLike(getToken() , postId).then((updatedPost) => {
+    //     renderApp();
+    //   })
+    // }
+  
+}
+
+
+
 
 
 goToPage(POSTS_PAGE);
+
+
