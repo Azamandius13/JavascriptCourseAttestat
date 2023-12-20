@@ -75,6 +75,7 @@ export function renderUserPostsPageComponent({ appEl }) {
     for (let like of document.querySelectorAll(".like-button")) {
       like.addEventListener("click", () => {
           let id = like.dataset.postId;
+          console.log(id);
           toggleLike(id);
       });
     } 
