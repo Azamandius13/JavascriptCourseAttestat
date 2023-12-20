@@ -17,6 +17,7 @@ export function renderUserPostsPageComponent({ appEl }) {
      * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
      */
     const appHtml = posts.map((post,index) => {
+      console.log(post);
       return `
       <div class="page-container">
         <div class="header-container"></div>
@@ -80,3 +81,5 @@ export function renderUserPostsPageComponent({ appEl }) {
       });
     } 
   }
+
+  

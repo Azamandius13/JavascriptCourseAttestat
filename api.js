@@ -1,5 +1,5 @@
 import { getToken, goToPage } from "/index.js";
-import { POSTS_PAGE } from "../routes.js";
+import { POSTS_PAGE } from "./routes.js";
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod 333 
 const personalKey = "artemiybabichev";
@@ -25,9 +25,12 @@ export function getPosts({ token }) {
     });
 }
 
-export function getUserPosts(userid) {
+export function getUserPosts(userid , token) {
   return fetch(postsHost + `/user-posts/${userid}` , {
       method: "GET",
+      headers: {
+        Authorization: token,
+      },
   }).then((response) => {
     return response.json();
   }).then((data) => {
