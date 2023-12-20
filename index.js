@@ -18,6 +18,8 @@ import {
 
 import {renderUserPostsPageComponent} from "./components/user_post_page_components.js"
 
+import { removeLike,addLike } from "./api.js";
+
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -73,7 +75,7 @@ export const goToPage = (newPage, data) => {
       page = LOADING_PAGE;
       // TODO: реализовать получение постов юзера из API
       console.log("Открываю страницу пользователя: ", data.userId);
-      getUserPosts(data.userId).then((response) => {
+      getUserPosts(data.userId , getToken()).then((response) => {
         posts = response;
         page = USER_POSTS_PAGE;
         console.log(posts )
@@ -188,6 +190,32 @@ export const goToPageWithoutLoader = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
+export const toggleLike = (postId) => {
+  console.log(posts)
+  const index = posts.findIndex((el) => {return el.id === postId})
+  console.log(index)
+
+    if (posts[index].isLiked) {
+       removeLike(getToken() , postId).then((updatedPost) => {
+        posts[index].isLiked = false;
+        posts[index].likes = updatedPost.post.likes ;
+        renderApp();
+        
+        })
+    }else {
+     addLike(getToken() , postId).then((updatedPost) => {
+      posts[index].isLiked = true;
+      posts[index].likes = updatedPost.post.likes ;
+       renderApp();
+      })
+    }
+  
+}
+
+
+
 
 
 goToPage(POSTS_PAGE);
+
+

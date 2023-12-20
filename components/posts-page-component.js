@@ -5,7 +5,9 @@ import { addLike , removeLike } from "../api.js";
 import { getToken } from "../index.js";
 import { goToPageWithoutLoader } from "../index.js";
 import { replacerSafity } from "../helpers.js";
- 
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
+
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
 
@@ -49,7 +51,7 @@ export function renderPostsPageComponent({ appEl }) {
             ${post.description}
           </p>
           <p class="post-date">
-            ${new Date(post.createdAt)}
+            ${formatDistanceToNow(new Date(post.createdAt), {locale:ru , addSuffix : "назад"})}
           </p>
         </li>
       </ul>

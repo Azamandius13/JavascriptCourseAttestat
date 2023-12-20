@@ -5,6 +5,8 @@ import { addLike , removeLike } from "../api.js";
 import { getToken } from "../index.js";
 import { goToPageWithoutLoader } from "../index.js";
 import { goToPage } from "../index.js";
+import { replacerSafity } from "../helpers.js";
+import { toggleLike } from "../index.js";
 
 export function renderUserPostsPageComponent({ appEl }) {
     // TODO: реализовать рендер постов из api
@@ -15,6 +17,7 @@ export function renderUserPostsPageComponent({ appEl }) {
      * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
      */
     const appHtml = posts.map((post,index) => {
+      console.log(post);
       return `
       <div class="page-container">
         <div class="header-container"></div>
@@ -22,7 +25,7 @@ export function renderUserPostsPageComponent({ appEl }) {
           <li class="post">
             <div class="post-header" data-user-id="${post.user.id}">
                 <img src="${post.user.imageUrl}" class="post-header__user-image">
-                <p class="post-header__user-name">${post.user.name}</p>
+                <p class="post-header__user-name">${replacerSafity(post.user.name)}</p>
             </div>
             <div class="post-image-container">
               <img class="post-image" src="${post.imageUrl}">
@@ -36,11 +39,15 @@ export function renderUserPostsPageComponent({ appEl }) {
                 }">
               </button>
               <p class="post-likes-text">
-                Нравится: <strong>${post.likes.length}</strong>
+                Нравится: <strong>${
+                  post.likes.length && replacerSafity(post.likes[0].name)
+                } ${
+                  post.likes.length - 1 <= 0 ? "" : `и еще ${post.likes.length - 1}`
+                }</strong>
               </p>
             </div>
             <p class="post-text">
-              <span class="user-name">${post.user.name}</span>
+              <span class="user-name">${replacerSafity(post.user.name)}</span>
               ${post.description}
             </p>
             <p class="post-date">
@@ -69,16 +76,10 @@ export function renderUserPostsPageComponent({ appEl }) {
     for (let like of document.querySelectorAll(".like-button")) {
       like.addEventListener("click", () => {
           let id = like.dataset.postId;
-          let token = getToken();
-          if( like.dataset.switcher === "true") {
-            removeLike(token , id)
-            .then(() => {goToPageWithoutLoader(USER_POSTS_PAGE,{ userId : like.dataset.userId})})
-          }
-          if( like.dataset.switcher === "false") {
-            addLike(token , id)
-            .then(() => {goToPageWithoutLoader(USER_POSTS_PAGE ,{ userId : like.dataset.userId})})
-          }
-          
+          console.log(id);
+          toggleLike(id);
       });
     } 
   }
+
+  
